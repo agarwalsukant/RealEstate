@@ -17,3 +17,5 @@ alter table login add role enum('client','owner','agent') default 'client';
 alter table property drop column image;
 
 alter table property add column image mediumblob;
+
+ create table Agent(agent_id int AUTO_INCREMENT,name varchar(20), lastname varchar(20),city varchar(20),image mediumblob,PRIMARY KEY(agent_id));

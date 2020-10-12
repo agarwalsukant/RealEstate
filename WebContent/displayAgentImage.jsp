@@ -1,4 +1,3 @@
-<%@page import="com.mysql.cj.util.DnsSrv.SrvRecord"%>
 <%@page import="java.io.OutputStream"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
@@ -26,35 +25,25 @@ try
 {
 	Class.forName("com.mysql.jdbc.Driver");
 	conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/RealEstate", "root","root");
-	String sql = "Select * from property";
-	PreparedStatement ps = conn.prepareStatement(sql);
-	ResultSet rs = ps.executeQuery();
-	%><section class="my-5">
-	<div class="py-3">
-		<h2 class="text-center">Buy</h2>
-	</div>
-	<div class="container-fluid">
-	<div class="row"><%
+	String sql = "Select image from agent where agent_id="+request.getParameter("agentID");
+	Statement st = conn.createStatement();
+	ResultSet rs = st.executeQuery(sql);
+	byte[] imgData=null;
+	
 	while(rs.next())
-	{%>
-	 
-			<div class="col-lg-4 col-md-3 col-12">
-				<div class="card" >
-					  <img class="card-img-top" src="http://localhost:8080/RealEstate/imageDisplay.jsp?pID=<%=rs.getInt(1)%>" alt="Card image" class="img-fluid cardimg">
-					  <div class="card-body">
-					    <h5 class="card-title"><%=rs.getString(2)%></h5>
-					    <p class="card-text"><%=rs.getString(4) %></p>
-					    <a href="Display.jsp?pid=<%=rs.getInt(1) %>" class="btn btn-success">See Profile</a>
- 						</div>	
-				</div>
-			</div>
-		
-		
-	<% 	
-	}
-	%></div>
-	</div>
-	</section><%
+	{
+		Blob blob = rs.getBlob(1);
+		imgData = blob.getBytes(1, (int) blob.length());
+		}
+	response.setContentType("image/png");
+	OutputStream os = response.getOutputStream();
+	os.write(imgData);
+	os.flush();
+	os.close();
+	rs.close();
+	st.close();
+	conn.close();
+	
 	//session.setAttribute("List",list);
 }
 catch(Exception e)
@@ -62,6 +51,7 @@ catch(Exception e)
 	out.println("Some exception here "+e);
 }
 %>
+
 <%@ include file="footer.jsp" %>
 </body>
 </html>
