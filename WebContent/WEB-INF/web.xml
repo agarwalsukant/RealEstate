@@ -18,4 +18,13 @@
   <servlet-name>FileUploadDBServlet</servlet-name>
   <url-pattern>/uploadServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+  	<display-name>AgentUpload</display-name>
+    <servlet-name>AgentUpload</servlet-name>
+  	 <servlet-class>com.mit.realstate.impl.AddAgent</servlet-class>	
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>AgentUpload</servlet-name>
+  <url-pattern>/agent</url-pattern>
+  </servlet-mapping>
 </web-app>
