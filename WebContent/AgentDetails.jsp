@@ -1,3 +1,4 @@
+<%@page import="com.mit.realstate.impl.OwnerName"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -18,39 +19,41 @@
 <%
 String img_path;
 Connection conn=null;
-String prop_id=request.getParameter("pid");
-int property_id = Integer.parseInt(prop_id);
+String agentIDString=request.getParameter("agentID");
+int agentID = Integer.parseInt(agentIDString);
 try
 {
 	Class.forName("com.mysql.jdbc.Driver");
 	conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/RealEstate", "root","root");
 	Statement st = conn.createStatement();
-	String sql= "Select * from Property where Property_ID ="+property_id;
+	String sql= "Select * from agent where agent_id ="+agentID;
 	ResultSet rs = st.executeQuery(sql);
 	while(rs.next())
 	{
-		session.setAttribute("property_ID",rs.getInt(1));
- 		img_path = "images/" + rs.getString(8);%>				  
+		session.setAttribute("agentName",rs.getString(2));
+ 		%>				  
 	<section class="my-5">
+	<form name="contact" action="Scheduler.jsp"  method="post">
 	<div class="container-fluid">
 	<div class="row">
 		<div class="col-lg-6 col-md-6 col-12">
-			<img src="http://localhost:8080/RealEstate/imageDisplay.jsp?pID=<%=rs.getInt(1)%>" class="img-fluid displayimg" >
+			<img src="http://localhost:8080/RealEstate/displayAgentImage.jsp?agentID=<%=rs.getInt(1)%>" class="img-fluid displayimg" >
 		</div>
 			<div class="col-lg-6 col-md-6 col-12">
-				<h2 class="display-4"><%out.println(rs.getString(2)); %></h2>
-				<h2><%out.println(rs.getString(3)); %></h2>
-				<h3> Type: <%out.println(rs.getString(4)); %></h3>
-				<h3> Property Price: <%out.println(rs.getString(5)); %></h3>
-				<h3> Square feet: <%out.println(rs.getString(6)); %></h3>
-				<h3>  <%out.println(rs.getString(7)); %></h3>
-				<a href="Agent.jsp" class="btn btn-success">Find an Agent</a>
+				<h2><%out.println(rs.getString(2)+" "+rs.getString(3)); %></h2>
+				<h3> City: <%out.println(rs.getString(4)); %></h3>
+				<label for="appointment">Schedule Appointment:</label>
+				<input type="datetime-local" name="appointment"><br>
+				
+				<%session.setAttribute("date",request.getParameter("appointment")); %>
+				<button type="submit" class="btn btn-success">Schedule</button>
+				
 			</div>
 		</div>
 	</div>
+	</form>
 </section>
 		<%
-		
 	}
 }
 catch(Exception e)

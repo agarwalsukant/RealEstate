@@ -11,6 +11,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 @MultipartConfig(maxFileSize = 1617721579)
@@ -19,6 +20,7 @@ public class AddProperty extends HttpServlet{
 	{
 		Connection conn=null;
 		PrintWriter out=null;
+		HttpSession session = request.getSession();
 		try {
 			out = response.getWriter();
 		} catch (IOException e1) {
@@ -29,7 +31,6 @@ public class AddProperty extends HttpServlet{
 		{
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/RealEstate", "root","root");
-			
 			String name=request.getParameter("pname");
 			String address=request.getParameter("address");
 			String price=request.getParameter("price");
@@ -47,7 +48,7 @@ public class AddProperty extends HttpServlet{
 			
 			if(name!=null && address!=null && price!=null && sqft!=null && details != null)
 			{
-				PreparedStatement st=conn.prepareStatement("insert into `Property`(Property_Name,Property_add,Property_price,SQUARE_FEET,DETAILS,image,TYPE) values(?,?,?,?,?,?,?)");
+				PreparedStatement st=conn.prepareStatement("insert into `Property`(Property_Name,Property_add,Property_price,SQUARE_FEET,DETAILS,image,TYPE,owner_name) values(?,?,?,?,?,?,?,?)");
 				st.setString(1,name);
 				st.setString(2,address);
 				st.setInt(3,Integer.valueOf(price));
@@ -58,6 +59,7 @@ public class AddProperty extends HttpServlet{
 					st.setBlob(6,inputStream);
 				}
 				st.setString(7,propertyType);
+				st.setString(8,(String)session.getAttribute("loggedInUser"));
 				int r=st.executeUpdate();
 				if(r>0)
 				{

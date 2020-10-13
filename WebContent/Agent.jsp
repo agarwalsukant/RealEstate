@@ -44,7 +44,7 @@ try
 					  <div class="card-body">
 					    <h5 class="card-title"><%=rs.getString(2)+" "+rs.getString(3)%></h5>
 					    <p class="card-text"><%=rs.getString(4) %></p>
-					    <a href="Display.jsp?pid=1" class="btn btn-success">See Profile</a>
+					    <a href="AgentDetails.jsp?agentID=<%=rs.getInt(1) %>" class="btn btn-success">See Profile</a>
  						</div>	
 				</div>
 			</div>
