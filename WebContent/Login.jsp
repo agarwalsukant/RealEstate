@@ -76,8 +76,9 @@ span.psw {
 
     <label for="psw"><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="psw" required>
-
     <button type="submit">Login</button>
+     <a href="ChooseUserType.jsp">Register here</a>
+       
   </div>
 
 </form>
@@ -112,9 +113,9 @@ try
 			{
 				response.sendRedirect("AddProperty.jsp");
 			}
-			else
+			else if(Role.agent.equals(role))
 			{
-				response.sendRedirect("about.jsp");
+				response.sendRedirect("AgentDashboard.jsp");
 			}
 		}
 		else

@@ -33,6 +33,7 @@ public class AddAgent extends HttpServlet{
 			String name=request.getParameter("Agentname");
 			String lastName=request.getParameter("AgentLastName");
 			String city=request.getParameter("city");
+			String password= request.getParameter("password");
 			InputStream inputStream=null;
 			Part filePart = request.getPart("photo");
 			
@@ -45,6 +46,7 @@ public class AddAgent extends HttpServlet{
 			if(name!=null && lastName!=null && city!=null)
 			{
 				PreparedStatement st=conn.prepareStatement("insert into `Agent`(name,lastname,city,image) values(?,?,?,?)");
+				PreparedStatement st2= conn.prepareStatement("insert into `login`(uname,pwd,role) values(?,?,?)");
 				st.setString(1,name);
 				st.setString(2,lastName);
 				st.setString(3,city);
@@ -52,8 +54,13 @@ public class AddAgent extends HttpServlet{
 				{
 					st.setBlob(4,inputStream);
 				}
+				st2.setString(1,name);
+				st2.setString(2,password);
+				st2.setString(3,"agent");
+				
 				int r=st.executeUpdate();
-				if(r>0)
+				int rs= st2.executeUpdate();
+				if(r>0&&rs>0)
 				{
 					response.sendRedirect("index.jsp");
 					out.println("Agent added Successfully");

@@ -27,4 +27,22 @@
   <servlet-name>AgentUpload</servlet-name>
   <url-pattern>/agent</url-pattern>
   </servlet-mapping>
+  <servlet>
+  	<display-name>OwnerUpload</display-name>
+    <servlet-name>OwnerUpload</servlet-name>
+  	 <servlet-class>com.mit.realstate.impl.AddOwner</servlet-class>	
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>OwnerUpload</servlet-name>
+  <url-pattern>/owner</url-pattern>
+  </servlet-mapping>
+  <servlet>
+  	<display-name>BuyerUpload</display-name>
+    <servlet-name>BuyerUpload</servlet-name>
+  	 <servlet-class>com.mit.realstate.impl.AddBuyer</servlet-class>	
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>BuyerUpload</servlet-name>
+  <url-pattern>/buyer</url-pattern>
+  </servlet-mapping>
 </web-app>
