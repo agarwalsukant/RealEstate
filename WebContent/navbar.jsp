@@ -56,6 +56,9 @@
           <a class="dropdown-item" href="Agent.jsp ">Find an Agent</a>
         </div>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="ClientDashboard.jsp">Dashboard</a>
+      </li>
      <%}
       %>
       <li class="nav-item">
